@@ -14,6 +14,10 @@ namespace Orlik
 {
     internal class MainWindowViewModel : INotifyPropertyChanged
     {
+        public MainWindowViewModel()
+        {
+            GetOrlikList();
+        }
         private CodeFirstDemoEntities context = new CodeFirstDemoEntities();
         
         public event PropertyChangedEventHandler PropertyChanged;
@@ -59,7 +63,7 @@ namespace Orlik
                 }
             }
         }
-        private List<ORLIK_DATABASE1> _orlikItems;
+        private List<ORLIK_DATABASE1> _orlikItems = new List<ORLIK_DATABASE1>();
         public List<ORLIK_DATABASE1> orlikItems
         {
 
