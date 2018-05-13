@@ -10,30 +10,57 @@
         
         mc:Ignorable="d"
         Title="WELCOME IN ORLIK APP" Height="450" Width="800">
-    <Window.DataContext>
-        <local:MainWindowViewModel/>
-    </Window.DataContext>
-    <Window.Resources>
-        <local:MainWindowViewModel x:Key="OrlikItemsList"/>
-    </Window.Resources>
+
     <StackPanel>
-
-        <TextBlock Text="CHOOSE DATA" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10" FontSize="20" FontStyle="Normal" FontWeight="Bold"/>
-        <toolkit:DateTimePicker HorizontalAlignment="Center" x:Name="picker" VerticalAlignment="Top" Width="200"
-                                    TimeFormat="ShortTime"  Margin="0,50,0,0"  Value="{Binding PickedDateTime}">
-
-        </toolkit:DateTimePicker>
         <Grid>
-            <ComboBox x:Name="dataList" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20" Width="200" ItemsSource="{Binding orlikItems}" >
+            <Button x:Name="searchButton"  Width="50" Height="25" Margin="0,100,-550,50" Content="Search" Command="{Binding Command}"/>
+            <TextBlock Text="CHOOSE DATA" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10" FontSize="20" FontStyle="Normal" FontWeight="Bold"/>
+            <toolkit:DateTimePicker HorizontalAlignment="Center" x:Name="picker" VerticalAlignment="Top" Width="200" 
+                                    TimeFormat="ShortTime"  Margin="0,100,250,0"  Value="{Binding PickedDateTime}" Height="25">
+
+            </toolkit:DateTimePicker>
+
+            <ComboBox x:Name="dataList" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="250,100,0,0" Width="200" Height="25" ItemsSource="{Binding orlikItems}" SelectedItem="{Binding selectedItem}" >
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Name }"></TextBlock>
+                            <TextBlock Text="{Binding Name}"></TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-
+            
         </Grid>
+        <StackPanel>
+
+
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="397*"/>
+                    <ColumnDefinition Width="395*"/>
+
+                </Grid.ColumnDefinitions>
+                <ListView  Width="400" Height="100" Name="listItems" ItemsSource="{Binding MatchingItems}"  Grid.ColumnSpan="2" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" Width="130" DisplayMemberBinding="{Binding Name}" />
+                            <GridViewColumn Header="Adress" Width="150" DisplayMemberBinding="{Binding Adress}" />
+                            <GridViewColumn Header="Ball" Width="60" DisplayMemberBinding="{Binding Ball}"/>
+                            <GridViewColumn Header="Light" Width="60" DisplayMemberBinding="{Binding Light}"/>
+
+                        </GridView>
+                                                    
+                    </ListView.View>
+                    
+
+                </ListView>
+               
+            </Grid>
+
+
+
+
+        </StackPanel>
     </StackPanel>
 </Window>

@@ -17,9 +17,59 @@ namespace Orlik
         public MainWindowViewModel()
         {
             GetOrlikList();
+            
+            //canExecute(this.selectedItem);
         }
+
+        private List<ORLIK_DATABASE1> _matchingItems = new List<ORLIK_DATABASE1>();
+        public List<ORLIK_DATABASE1> MatchingItems
+        {
+
+            get
+            {
+
+                return _matchingItems;
+            }
+            set
+            {
+                _matchingItems = value;
+                OnPropertyChanged("MatchingItems");
+            }
+        }
+        public ORLIK_DATABASE1 selectedItem { get; set; }
+
         private CodeFirstDemoEntities context = new CodeFirstDemoEntities();
-        
+        private ICommand _command;
+
+        public ICommand Command
+        {
+            get
+            {
+                return _command ?? (_command = new RelayCommand(
+               x =>
+               {
+                   GetMatchingOrlikList();
+               }));
+            }
+            
+        }
+        public void GetMatchingOrlikList()
+        {
+            
+            foreach (var item in orlikItems)
+            {
+                //problem bo on nie wchodzi w ta petle wgl :(
+                if ((pickedDateTime.TimeOfDay >= item.Open_Hour.TimeOfDay) && (pickedDateTime.TimeOfDay <= item.Close_Hour.TimeOfDay))
+                {
+                    _matchingItems.Add(item);
+                    //czujka ze do tego dochodzi
+                    MessageBox.Show(_matchingItems.ToString());
+                }
+               // MessageBox.Show(item.Name.ToString());
+
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private DateTime pickedDateTime = DateTime.Now;
@@ -39,6 +89,21 @@ namespace Orlik
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        private void execute(object obj)
+        {
+            this.GetMatchingOrlikList();
+        }
+        private bool canExecute(object parameter)
+        {
+            if (this._orlikItems == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -68,20 +133,7 @@ namespace Orlik
         {
 
             get
-            {
-
-                /*var orlikList = context.ORLIK_DATABASE1.ToList();
-                foreach (var item in orlikList)
-                {
-                    orlikItem = item.ToString();
-                    orlikItems.Add(item);
-
-
-                }
-                OnPropertyChanged("orlikItem");
-                //OrlikItem = orlikItem;
-                return orlikItems;
-                */
+            {                          
                 return _orlikItems;
             }
             set
@@ -94,8 +146,7 @@ namespace Orlik
         {
             var orlikList = context.ORLIK_DATABASE1.ToList();
             foreach (var item in orlikList)
-            {
-                
+            {                
                 _orlikItems.Add(item);
             }
         }
