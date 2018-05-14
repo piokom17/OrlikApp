@@ -20,11 +20,11 @@
 
             </toolkit:DateTimePicker>
 
-            <ComboBox x:Name="dataList" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="250,100,0,0" Width="200" Height="25" ItemsSource="{Binding orlikItems}" SelectedItem="{Binding selectedItem}" >
+            <ComboBox x:Name="dataList" Text="Select All"   HorizontalAlignment="Center" VerticalAlignment="Top" Margin="250,100,0,0" Width="200" Height="25" ItemsSource="{Binding orlikItems}" SelectedItem="{Binding selectedItem,Mode=TwoWay}" >
                 <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Name}"></TextBlock>
+                    <DataTemplate >
+                        <StackPanel  Orientation="Horizontal">
+                            <TextBlock  Text="{Binding Name}"></TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -41,7 +41,7 @@
                     <ColumnDefinition Width="395*"/>
 
                 </Grid.ColumnDefinitions>
-                <ListView  Width="400" Height="100" Name="listItems" ItemsSource="{Binding MatchingItems}"  Grid.ColumnSpan="2" >
+                <ListView  Width="400" Height="100" Name="listItems" ItemsSource="{Binding MatchingItems}" SelectedItem="{Binding selectedOrlikItem, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Grid.ColumnSpan="2" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name" Width="130" DisplayMemberBinding="{Binding Name}" />
@@ -57,6 +57,7 @@
                 </ListView>
                
             </Grid>
+            <Button x:Name="bookThePitch" Content="BOOK" Margin="20" Width="100" Height="50"  Command="{Binding bookCommand}"></Button>
 
 
 
